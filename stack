@@ -1,0 +1,111 @@
+import java.util.Scanner;
+
+class Stack {
+    private int[] stack;
+    private int top;
+    private int maxSize;
+
+    // Constructor to initialize stack with a given size
+    public Stack(int size) {
+        maxSize = size;
+        stack = new int[maxSize];
+        top = -1;
+    }
+
+    // Push item onto the stack
+    public void push(int item) {
+        if (top == maxSize - 1) {
+            System.out.println("Overflow: Stack is full!");
+        } else {
+            stack[++top] = item;
+            System.out.println(item + " pushed to stack.");
+        }
+    }
+
+    // Pop item from the stack
+    public int pop() {
+        if (top == -1) {
+            System.out.println("Underflow: Stack is empty!");
+            return -1; // Indicating error
+        } else {
+            int poppedItem = stack[top--];
+            return poppedItem;
+        }
+    }
+
+    // Peek the top element of the stack
+    public int peek() {
+        if (top == -1) {
+            System.out.println("Stack is empty.");
+            return -1; // Indicating error
+        }
+        return stack[top];
+    }
+
+    // Display all elements in the stack
+    public void display() {
+        if (top == -1) {
+            System.out.println("Stack is empty.");
+        } else {
+            System.out.print("Stack: ");
+            for (int i = top; i >= 0; i--) {
+                System.out.print(stack[i] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+public class StackExample {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the size of the stack:");
+        int size = sc.nextInt();
+        Stack st = new Stack(size);
+
+        while (true) {
+            System.out.println("\nChoose an operation: ");
+            System.out.println("1. Push");
+            System.out.println("2. Pop");
+            System.out.println("3. Peek");
+            System.out.println("4. Display");
+            System.out.println("5. Exit");
+            System.out.print("Enter choice: ");
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter the item to push: ");
+                    int item = sc.nextInt();
+                    st.push(item);
+                    break;
+
+                case 2:
+                    int poppedItem = st.pop();
+                    if (poppedItem != -1) {
+                        System.out.println(poppedItem + " popped from stack.");
+                    }
+                    break;
+
+                case 3:
+                    int peekItem = st.peek();
+                    if (peekItem != -1) {
+                        System.out.println("Item at top: " + peekItem);
+                    }
+                    break;
+
+                case 4:
+                    st.display();
+                    break;
+
+                case 5:
+                    System.out.println("Exiting...");
+                    sc.close();
+                    return;
+
+                default:
+                    System.out.println("Invalid choice! Please enter a number between 1 and 5.");
+            }
+        }
+    }
+}
