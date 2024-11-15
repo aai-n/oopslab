@@ -1,0 +1,65 @@
+import java.io.*;
+import java.util.Scanner;
+
+public class FileCopyExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        // Input source file name
+        System.out.print("Enter the name of the source file (e.g., source.txt): ");
+        String sourceFileName = scanner.nextLine();
+
+        // Input destination file name
+        System.out.print("Enter the name of the destination file (e.g., destination.txt): ");
+        String destinationFileName = scanner.nextLine();
+
+        try {
+            // Step 1: Write contents into the source file
+            System.out.println("Enter text to write into the source file (type 'exit' to stop):");
+            FileWriter sourceFileWriter = new FileWriter(sourceFileName);
+            BufferedWriter sourceBufferedWriter = new BufferedWriter(sourceFileWriter);
+            
+            String inputText;
+            while (true) {
+                inputText = scanner.nextLine();
+                if ("exit".equalsIgnoreCase(inputText)) {
+                    break;
+                }
+                sourceBufferedWriter.write(inputText);
+                sourceBufferedWriter.newLine(); // Add a new line after each input
+            }
+            
+            // Close the source file writer
+            sourceBufferedWriter.close();
+            System.out.println("Content has been written to " + sourceFileName);
+
+            // Step 2: Read contents from the source file
+            BufferedReader sourceBufferedReader = new BufferedReader(new FileReader(sourceFileName));
+            String line;
+            StringBuilder content = new StringBuilder();
+
+            while ((line = sourceBufferedReader.readLine()) != null) {
+                content.append(line).append("\n");
+            }
+
+            // Close the source file reader
+            sourceBufferedReader.close();
+
+            // Step 3: Write contents into the destination file
+            FileWriter destinationFileWriter = new FileWriter(destinationFileName);
+            BufferedWriter destinationBufferedWriter = new BufferedWriter(destinationFileWriter);
+            
+            destinationBufferedWriter.write(content.toString());
+            // Close the destination file writer
+            destinationBufferedWriter.close();
+
+            System.out.println("Content has been copied to " + destinationFileName);
+
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        } finally {
+            scanner.close();
+        }
+    }
+}
